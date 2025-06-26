@@ -4,7 +4,7 @@ function submitData(name, email) {
     email: email
   };
 
-  const config = {
+  const configObj = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -13,28 +13,14 @@ function submitData(name, email) {
     body: JSON.stringify(userData)
   };
 
-  return fetch("http://localhost:3000/users", config)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
+  return fetch("http://localhost:3000/users", configObj)
+    .then(response => response.json())
     .then(data => {
-      // Append new id to DOM
-      const idElement = document.createElement('p');
-      idElement.textContent = data.id;
-      document.body.appendChild(idElement);
+      // Append the new id to the DOM
+      document.body.innerHTML += data.id;
     })
     .catch(error => {
-      // Append error message to DOM
-      const errorElement = document.createElement('p');
-      errorElement.textContent = error.message;
-      document.body.appendChild(errorElement);
+      // Append the error message to the DOM
+      document.body.innerHTML += error.message;
     });
-}
-
-// Make available for testing
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { submitData };
 }
